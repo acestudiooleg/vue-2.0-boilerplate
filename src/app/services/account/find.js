@@ -8,6 +8,8 @@ const success = (account) => {
   store.dispatch('account/store', account);
 };
 
+
+export const roro = a => a * 2;
 // When the request fails
 const failed = () => {
 };

@@ -9,7 +9,7 @@ function resolve(dir) {
 
 module.exports = {
   entry: {
-    app: ['babel-polyfill', './src/main.js']
+    app: ['babel-polyfill', './src/app/main.js']
   },
   output: {
     path: config.build.assetsRoot,
@@ -21,7 +21,7 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
-      '@': resolve('src')
+      '@': resolve('src/app')
     }
   },
   module: {
@@ -30,7 +30,7 @@ module.exports = {
         test: /\.(js|vue)$/,
         loader: 'eslint-loader',
         enforce: 'pre',
-        include: [resolve('src'), resolve('test')],
+        include: [resolve('src/app'), resolve('src/test')],
         options: {
           formatter: require('eslint-friendly-formatter')
         }
@@ -43,7 +43,7 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: [resolve('src'), resolve('test')]
+        include: [resolve('src/app'), resolve('test')]
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,

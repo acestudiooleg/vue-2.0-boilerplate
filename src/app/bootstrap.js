@@ -179,7 +179,7 @@ require('font-awesome/less/font-awesome.less');
  *
  * http://stylus-lang.com/
  */
-require('./assets/stylus/app.styl');
+require('./assets/sass/app.sass');
 
 
 export default {

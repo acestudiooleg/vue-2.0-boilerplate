@@ -3,12 +3,16 @@
     ["env", { "modules": false }],
     "stage-2", "es2015"
   ],
-  "plugins": ["transform-runtime"],
+  "plugins": ["transform-runtime",
+    ["module-alias", [
+      { "src": "./src/app", "expose": "@" }
+    ]]
+  ],
   "comments": false,
   "env": {
     "test": {
       "presets": ["env", "stage-2", "es2015"],
-      "plugins": [ "istanbul" ]
+      "plugins": ["istanbul"]
     }
   }
 }
