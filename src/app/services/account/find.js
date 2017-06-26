@@ -9,11 +9,6 @@ const success = (account) => {
 };
 
 
-export const roro = a => a * 2;
-// When the request fails
-const failed = () => {
-};
-
 export default () => {
   /*
    * Normally you would perform an AJAX-request.
