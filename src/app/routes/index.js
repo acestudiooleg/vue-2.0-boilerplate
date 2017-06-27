@@ -5,6 +5,11 @@
  * The routes and redirects are defined in this file.
  */
 
+ import home from '@/pages/home/index.vue';
+ import account from '@/pages/account/index.vue';
+ import login from '@/pages/login/index.vue';
+ import register from '@/pages/register/index.vue';
+
 
 /**
  * The routes
@@ -16,7 +21,7 @@ export default [
   {
     path: '/home',
     name: 'home.index',
-    component: require('@/pages/home/index.vue'),
+    component: home,
 
     // If the user needs to be authenticated to view this page
     meta: {
@@ -28,7 +33,7 @@ export default [
   {
     path: '/account',
     name: 'account.index',
-    component: require('@/pages/account/index.vue'),
+    component: account,
 
     // If the user needs to be authenticated to view this page
     meta: {
@@ -40,7 +45,7 @@ export default [
   {
     path: '/login',
     name: 'login.index',
-    component: require('@/pages/login/index.vue'),
+    component: login,
 
     // If the user needs to be a guest to view this page
     meta: {
@@ -52,7 +57,7 @@ export default [
   {
     path: '/register',
     name: 'register.index',
-    component: require('@/pages/register/index.vue'),
+    component: register,
 
     // If the user needs to be a guest to view this page
     meta: {

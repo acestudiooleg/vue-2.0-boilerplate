@@ -95,6 +95,8 @@
    */
 
   import authService from '@/services/auth';
+  import VLayout from '@/layouts/minimal.vue';
+  import VPanel from '@/components/panel.vue';
 
   export default {
 
@@ -117,8 +119,8 @@
     },
 
     components: {
-      VLayout: require('@/layouts/minimal.vue'),
-      VPanel: require('@/components/panel.vue'),
+      VLayout,
+      VPanel
     },
   };
 </script>

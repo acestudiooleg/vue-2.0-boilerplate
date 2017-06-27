@@ -1,7 +1,7 @@
 <template>
   <v-layout>
     <v-panel contextual-style="primary">
-      <h1 class="panel-title" slot="heading">
+      <h1 data-name="login-page" class="panel-title" slot="heading">
         Login
       </h1>
       <div slot="body">
@@ -14,6 +14,7 @@
               <input
                 v-model="user.email"
                 type="email"
+                data-name="email"
                 placeholder="Email"
                 class="form-control"
               >
@@ -27,13 +28,14 @@
               <input
                 v-model="user.password"
                 type="password"
+                data-name="pass"
                 placeholder="Password"
                 class="form-control"
               >
             </div>
           </div>
           <div class="form-group">
-            <button class="btn btn-primary">
+            <button data-name="login" class="btn btn-primary">
               Login
             </button>
           </div>
@@ -55,6 +57,8 @@
    * Page where the user can login.
    */
   import authService from '@/services/auth';
+  import VLayout from '@/layouts/minimal.vue';
+  import VPanel from '@/components/panel.vue';
 
   export default {
     data() {
@@ -65,7 +69,6 @@
         },
       };
     },
-
     methods: {
       login(user) {
         authService.login(user);
@@ -73,8 +76,8 @@
     },
 
     components: {
-      VLayout: require('@/layouts/minimal.vue'),
-      VPanel: require('@/components/panel.vue'),
+      VLayout,
+      VPanel
     },
   };
 </script>

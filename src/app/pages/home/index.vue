@@ -3,7 +3,7 @@
     <v-panel
       contextual-style="primary"
     >
-      <h1 class="panel-title" slot="heading">
+      <h1 data-name="home-page" class="panel-title" slot="heading">
         Welcome!
       </h1>
       <div slot="body">
@@ -50,10 +50,13 @@
    * The home index page.
    */
 
+  import VLayout from '@/layouts/minimal.vue';
+  import VPanel from '@/components/panel.vue';
+
   export default {
     components: {
-      VLayout: require('@/layouts/default.vue'),
-      VPanel: require('@/components/panel.vue'),
+      VLayout,
+      VPanel
     },
   };
 </script>

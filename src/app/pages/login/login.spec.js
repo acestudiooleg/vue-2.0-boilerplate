@@ -1,12 +1,22 @@
+import proxyquire from 'proxyquire';
+import sinon from 'sinon';
 import test from 'ava';
-import { mount, tick } from '@/../test/helpers';
-import tt from './tt';
+import { mount, tick, makeMockComponents } from '@/../test/helpers';
 
-test('renders', async t => {
-  const {holder} = mount(tt, {msg: 'hello worldшл'});
-  holder.click();
+test('Login form', async t => {
+  const login = sinon.spy();
+  const {default: Login} = proxyquire('./index', {
+    '../../services/auth': { default: { login } }
+  });
+
+  const user = {
+    email: 'user@gmail.com',
+    password: 'pass'
+  };
+  const {vm, holder} = mount(Login, {});
+  vm.user = user;
+  const loginButton = holder.find('[data-name="login"]');
   await tick();
-  holder.debug('its a dom');
-
-  t.pass();
+  loginButton.click();
+  t.deepEqual(login.args[0][0], user);
 });

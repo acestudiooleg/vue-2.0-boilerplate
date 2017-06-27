@@ -2,6 +2,16 @@
 
 // Setup browser environment
 require('browser-env')();
+const jquery = require('jquery');
+const LocalStorage = require('node-localstorage').LocalStorage;
+
+const localStorage = new LocalStorage('./lapp');
+window.localStorage = localStorage;
+global.localStorage = localStorage;
+
+window.jQuery = jquery;
+global.jQuery = jquery;
+
 const hooks = require('require-extension-hooks');
 const Vue = require('vue');
 
