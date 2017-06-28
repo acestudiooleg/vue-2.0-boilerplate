@@ -1,5 +1,5 @@
 import test from 'ava';
-import account from './index';
+import auth from './index.js';
 
 test('roro is pass or not', t => {
   const actual = 2;

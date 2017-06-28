@@ -5,7 +5,7 @@ import { sequence } from '@/../test/helpers';
 import authService from '@/services/auth';
 
 const { default: bootstrap } = proxyquire('./bootstrap', {
-  './styles': () => 'hello'
+  './styles': { default: () => 'hello' }
 });
 const {default: App} = proxyquire('./app', {
   './bootstrap': bootstrap

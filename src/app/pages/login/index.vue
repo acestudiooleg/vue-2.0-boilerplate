@@ -1,83 +1,8 @@
-<template>
-  <v-layout>
-    <v-panel contextual-style="primary">
-      <h1 data-name="login-page" class="panel-title" slot="heading">
-        Login
-      </h1>
-      <div slot="body">
-        <form @submit.prevent="login(user)">
-          <div class="form-group">
-            <div class="input-group">
-              <div class="input-group-addon">
-                <i class="fa fa-envelope fa-fw"></i>
-              </div>
-              <input
-                v-model="user.email"
-                type="email"
-                data-name="email"
-                placeholder="Email"
-                class="form-control"
-              >
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="input-group">
-              <div class="input-group-addon">
-                <i class="fa fa-lock fa-fw"></i>
-              </div>
-              <input
-                v-model="user.password"
-                type="password"
-                data-name="pass"
-                placeholder="Password"
-                class="form-control"
-              >
-            </div>
-          </div>
-          <div class="form-group">
-            <button data-name="login" class="btn btn-primary">
-              Login
-            </button>
-          </div>
-        </form>
-      </div>
-      <div slot="footer">
-        No account?
-        <router-link :to="{ name: 'register.index' }">Register</router-link>
-      </div>
-    </v-panel>
-  </v-layout>
-</template>
-
-<script>
-  /* ============
-   * Login Index Page
-   * ============
-   *
-   * Page where the user can login.
-   */
-  import authService from '@/services/auth';
-  import VLayout from '@/layouts/minimal.vue';
-  import VPanel from '@/components/panel.vue';
+<template src="./template.html"></template>
+<script >
+  import script from './script';
 
   export default {
-    data() {
-      return {
-        user: {
-          email: null,
-          password: null,
-        },
-      };
-    },
-    methods: {
-      login(user) {
-        authService.login(user);
-      },
-    },
-
-    components: {
-      VLayout,
-      VPanel
-    },
+    ...script
   };
 </script>

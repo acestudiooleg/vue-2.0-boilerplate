@@ -9,7 +9,7 @@
 
 import Vue from 'vue';
 import Vuex from 'vuex';
-import createLogger from 'vuex/dist/logger';
+// import createLogger from 'vuex/dist/logger';
 
 // Modules
 import account from './modules/account';

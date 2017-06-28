@@ -1,74 +1,111 @@
-const fs = require('fs');
+const _ = require('lodash');
+const PATH = require('path');
+const fs = require('./fspromise');
 
-module.exports = (path, name, tpl) => {
-  const p = 'src/app'
-  const pathFolder = `${p}/${path}/${name}`;
-  const pathVue = `${p}/${path}/${name}/index.vue`;
-  const pathTpl = `${p}/${path}/${name}/template.html`;
-  const pathScript = `${p}/${path}/${name}/script.js`;
-  const pathTest = `${p}/${path}/${name}/${name}.spec.js`;
+const access = path => fs.access(path);
+const mkdir = path => fs.mkdir(path);
+const writeFile = (path, data) => fs.writeFile(path, data);
 
+const make = m => (path, data) =>  new Promise((s, f) => {
+  access(path)
+  .then(() => {
+    console.log(path, ' - already exists');
+    f();
+  })
+  .catch(() => {
+    m(path, data).then(() => {
+      console.log(path, ' - was created');
+      s();
+    });
+  });
+});
 
-  let isFolder = false;
-  let isVue = false;
-  let isTpl = false;
-  let isScript = false;
-  let isTest = false;
+const makeDir = make(mkdir);
+const makeFile = make(writeFile);
 
-  try {
-    fs.accessSync(pathFolder);
-  } catch (err) {
-    isFolder = err.code !== 'ENOENT';
+const connectFile = (name, path, importPattern, exportPattern) => {
+  fs.readFile(path, 'utf-8').then((file) => {
+    if (!(new RegExp(`import\\s+${name}`, 'g').test(file))) {
+      const newFile = file.replace(importPattern.target, importPattern.value)
+        .replace(exportPattern.target, exportPattern.value);
+      fs.writeFile(path, newFile);
+    }
+  });
+};
+
+const makePatterns = (entity, name) => ({
+  imp: {
+    target: new RegExp(`// ${_.capitalize(entity)}s\n`, 'g'),
+    value: `// ${_.capitalize(entity)}s\nimport ${name} from './${name}';\n`
+  },
+  exp: {
+    target: /export default \[\n/,
+    value: `export default [\n  ${name},\n`
   }
+});
 
+module.exports = (type, name, tpl, path) => {
+  const pathFolder = `src/app${path}/${name}`;
+  const pathVue = `${pathFolder}/index.vue`;
+  const pathTpl = `${pathFolder}/template.html`;
+  const pathScript = `${pathFolder}/script.js`;
+  const pathTest = `${pathFolder}/${name}.spec.js`;
 
-  try {
-    fs.accessSync(pathVue);
-  } catch (err) {
-    isVue = err.code !== 'ENOENT';
-  }
+  const pathActions = `${pathFolder}/actions.js`;
+  const pathActionsTest = `${pathFolder}/actions.spec.js`;
+  const pathMutaTypes = `${pathFolder}/mutation-types.js`;
+  const pathMutations = `${pathFolder}/mutations.js`;
+  const pathMutationsTest = `${pathFolder}/mutations.spec.js`;
+  const pathGetters = `${pathFolder}/getters.js`;
+  const pathState = `${pathFolder}/state.js`;
+  const pathIndex = `${pathFolder}/index.js`;
 
-  try {
-    fs.accessSync(pathTpl);
-  } catch (err) {
-    isTpl = err.code !== 'ENOENT';
-  }
+  // ==============FOLDER=======================
+  makeDir(pathFolder).then(() => {
+    // ================MODULE================================
+    if (type === 'module') {
+      Promise.all([
+        makeFile(pathActions, tpl.actions),
+        makeFile(pathActionsTest, tpl.actionsTest),
+        makeFile(pathMutaTypes, tpl.mutationsTypes),
+        makeFile(pathMutations, tpl.mutations),
+        makeFile(pathMutationsTest, tpl.mutationsTest),
+        makeFile(pathGetters, tpl.getters),
+        makeFile(pathState, tpl.state),
+        makeFile(pathIndex, tpl.index)
+      ])
+      .then(() => {
+        const indexModule = PATH.resolve(pathFolder, '..', '..', 'index.js');
 
-  try {
-    fs.accessSync(pathScript);
-  } catch (err) {
-    isScript = err.code !== 'ENOENT';
-  }
+        const importPattern = {
+          target: /\/\/ Modules\n/,
+          value: `// Modules\nimport ${name} from './modules/${name}';\n`
+        };
 
-  try {
-    fs.accessSync(pathTest);
-  } catch (err) {
-    isTest = err.code !== 'ENOENT';
-  }
-  if(!isFolder){
-    const r = fs.mkdirSync(pathFolder);
-    console.log(pathFolder, 'was created');
+        const exportPattern = {
+          target: /modules: \{\n/,
+          value: `modules: {\n    ${name},\n`
+        };
 
-  }
+        connectFile(name, indexModule, importPattern, exportPattern);
+      });
+    }
 
+    if (['component', 'layout', 'page'].indexOf(type) !== -1) {
+      makeFile(pathVue, tpl.vue);
+      makeFile(pathTpl, tpl.tmpl);
+      makeFile(pathScript, tpl.script);
+      makeFile(pathTest, tpl.test);
+    }
 
-  if (!isVue) {
-    const r = fs.writeFileSync(pathVue, tpl.vue, 'utf-8');
-    console.log(pathVue, 'was created');
-  }
+    if (['route', 'mixin', 'service', 'transformer'].indexOf(type) !== -1) {
+      makeFile(pathTest, tpl.test);
+      makeFile(pathIndex, tpl.index).then(() => {
+        const ptrn = makePatterns(type, name);
 
-  if (!isTpl) {
-    const r = fs.writeFileSync(pathTpl, tpl.tmpl, 'utf-8');
-    console.log(pathTpl, 'was created');
-  }
-
-  if (!isScript) {
-    const r = fs.writeFileSync(pathScript, tpl.script, 'utf-8');
-    console.log(pathScript, 'was created');
-  }
-
-  if (!isTest) {
-    const r = fs.writeFileSync(pathTest, tpl.test, 'utf-8');
-    console.log(pathTest, 'was created');
-  }
+        const indexModule = PATH.resolve(pathFolder, '..', 'index.js');
+        connectFile(name, indexModule, ptrn.imp, ptrn.exp);
+      });
+    }
+  });
 };

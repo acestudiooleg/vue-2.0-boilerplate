@@ -1,62 +1,8 @@
-<template>
-  <v-layout>
-    <v-panel
-      contextual-style="primary"
-    >
-      <h1 data-name="home-page" class="panel-title" slot="heading">
-        Welcome!
-      </h1>
-      <div slot="body">
-        <p>
-          Get started with the Vue 2 boilerplate
-        </p>
-        <p>
-          For questions, contact me:
-        </p>
-        <p>
-          <a class="btn btn-primary" href="http://gitter.im/petervmeijgaard" target="_blank">
-            <i class="fa fa-github fa-fw" aria-hidden="true"></i>
-            <span class="padding-left">Gitter</span>
-          </a>
-          <a class="btn btn-primary" href="http://github.com/petervmeijgaard" target="_blank">
-            <i class="fa fa-github fa-fw" aria-hidden="true"></i>
-            <span class="padding-left">GitHub</span>
-          </a>
-          <a class="btn btn-primary" href="http://twitter.com/petervmeijgaard" target="_blank">
-            <i class="fa fa-twitter fa-fw" aria-hidden="true"></i>
-            <span class="padding-left">Twitter</span>
-          </a>
-        </p>
-        <p>
-          For bugs, see:
-        </p>
-        <a class="btn btn-primary" href="https://github.com/petervmeijgaard/vue-2.0-boilerplate/issues" target="_blank">
-          <i class="fa fa-github fa-fw" aria-hidden="true"></i>
-          <span class="padding-left">GitHub</span>
-        </a>
-      </div>
-      <div slot="footer">
-        Made with love by Vivid Web
-      </div>
-    </v-panel>
-  </v-layout>
-</template>
-
-<script>
-  /* ============
-   * Home Index Page
-   * ============
-   *
-   * The home index page.
-   */
-
-  import VLayout from '@/layouts/minimal.vue';
-  import VPanel from '@/components/panel.vue';
+<template src="./template.html"></template>
+<script >
+  import script from './script';
 
   export default {
-    components: {
-      VLayout,
-      VPanel
-    },
+    ...script
   };
 </script>

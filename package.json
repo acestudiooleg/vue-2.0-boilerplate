@@ -9,14 +9,14 @@
     "test": "ava",
     "test:watch": "ava -w",
     "gen": "node ./generator/index.js",
-    "gcom": "npm run gen -- components",
-    "glay": "npm run gen -- layouts",
-    "gmix": "npm run gen -- mixins",
-    "grou": "npm run gen -- routes",
-    "gser": "npm run gen -- services",
-    "gsto": "npm run gen -- store",
-    "gtra": "npm run gen -- transformers",
-    "gpag": "npm run gen -- pages"
+    "gcom": "npm run gen -- component",
+    "glay": "npm run gen -- layout",
+    "gmix": "npm run gen -- mixin",
+    "grou": "npm run gen -- route",
+    "gser": "npm run gen -- service",
+    "gmod": "npm run gen -- module",
+    "gtra": "npm run gen -- transformer",
+    "gpag": "npm run gen -- page"
   },
   "ava": {
     "files": [

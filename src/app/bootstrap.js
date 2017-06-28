@@ -31,7 +31,7 @@ Vue.config.debug = process.env.NODE_ENV !== 'production';
  * https://github.com/mzabriskie/axios
  */
 import Axios from 'axios';
-import authService from '@/services/auth';
+import { logout } from '@/services/auth';
 
 Axios.defaults.baseURL = process.env.API_LOCATION;
 Axios.defaults.headers.common.Accept = 'application/json';
@@ -39,7 +39,7 @@ Axios.interceptors.response.use(
   response => response,
   (error) => {
     if (error.response.status === 401) {
-      authService.logout();
+      logout();
     }
   });
 
@@ -107,8 +107,6 @@ VuexRouterSync.sync(store, router);
 
 Vue.router = router;
 
-require('./styles')();
-
 
 /* ============
  * Vue i18n
@@ -141,6 +139,10 @@ export const i18n = new VueI18n({
 import jQuery from 'jquery';
 
 window.$ = window.jQuery = jQuery;
+
+import styles from './styles';
+
+styles();
 
 export default {
   router,
