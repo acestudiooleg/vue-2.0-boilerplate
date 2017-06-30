@@ -6,7 +6,7 @@
  */
 
 import VLayout from '@/layouts/default';
-import VPanel from '@/components/panel/index.vue';
+import VPanel from '@/components/panel';
 
 export default {
   components: {

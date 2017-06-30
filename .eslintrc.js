@@ -43,6 +43,8 @@ module.exports = {
       'js': 'never',
       'vue': 'never'
     }],
+    'no-shadow': 0,
+    'import/no-named-as-default-member': 0,
     // allow optionalDependencies
     'import/no-extraneous-dependencies': ['error', {
       'optionalDependencies': ['test/unit/index.js']
